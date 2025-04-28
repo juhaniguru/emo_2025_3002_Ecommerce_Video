@@ -3,6 +3,7 @@ package com.example.emo_2025_3002_ecommerce_video.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
+import com.example.emo_2025_3002_ecommerce_video.productService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,12 +17,16 @@ class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
     val productsState = _productsState.asStateFlow()
 
     fun getProductsWithReviews() {
+        //productService.getProductsWithReviews()
         viewModelScope.launch {
             try {
                 _productsState.update { currentState ->
                     currentState.copy(loading = true, error = null)
                 }
-                // TODO: yritetään hakea data netistä
+                val productReviews = productService.getProductsWithReviews()
+                _productsState.update { currentState ->
+                    currentState.copy(productsWithRatings = productReviews)
+                }
             } catch(e: Exception) {
               _productsState.update { currentState ->
                   currentState.copy(error = e.toString())
