@@ -1,11 +1,15 @@
 package com.example.emo_2025_3002_ecommerce_video.models
 
+import com.google.gson.annotations.SerializedName
+
 data class ProductWithAvgRatingDto(
     val id: Int,
-
+    @SerializedName("product_name")
     val productName: String,
     val rating: Float?,
+    @SerializedName("review_count")
     val reviewCount: Int,
+    @SerializedName("category_name")
     val categoryName: String,
 
 )
