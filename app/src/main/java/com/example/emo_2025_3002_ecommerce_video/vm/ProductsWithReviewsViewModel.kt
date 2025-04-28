@@ -2,8 +2,9 @@ package com.example.emo_2025_3002_ecommerce_video.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.emo_2025_3002_ecommerce_video.DataApi
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
-import com.example.emo_2025_3002_ecommerce_video.productService
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,8 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
-
+class ProductsWithReviewsViewModel @Inject constructor(private val productService: DataApi) :
+    ViewModel() {
 
 
     private val _productsState = MutableStateFlow(ProductsWithAvgRatingsState())
@@ -22,7 +23,6 @@ class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
     init {
         getProductsWithReviews()
     }
-
 
 
     private fun getProductsWithReviews() {
@@ -36,10 +36,10 @@ class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
                 _productsState.update { currentState ->
                     currentState.copy(productsWithRatings = productReviews)
                 }
-            } catch(e: Exception) {
-              _productsState.update { currentState ->
-                  currentState.copy(error = e.toString())
-              }
+            } catch (e: Exception) {
+                _productsState.update { currentState ->
+                    currentState.copy(error = e.toString())
+                }
             } finally {
                 _productsState.update { currentState ->
                     currentState.copy(loading = false)
