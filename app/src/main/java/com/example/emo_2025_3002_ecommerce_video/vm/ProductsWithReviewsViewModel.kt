@@ -13,8 +13,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
+
+
+
     private val _productsState = MutableStateFlow(ProductsWithAvgRatingsState())
     val productsState = _productsState.asStateFlow()
+
+    init {
+        getProductsWithReviews()
+    }
+
+
 
     fun getProductsWithReviews() {
         //productService.getProductsWithReviews()
