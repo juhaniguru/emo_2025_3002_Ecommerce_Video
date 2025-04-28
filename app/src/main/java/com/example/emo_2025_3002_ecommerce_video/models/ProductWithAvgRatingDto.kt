@@ -6,7 +6,8 @@ data class ProductWithAvgRatingDto(
     val productName: String,
     val rating: Float?,
     val reviewCount: Int,
-    val categoryName: String
+    val categoryName: String,
+
 )
 
 data class ProductsWithAvgRatingsState(

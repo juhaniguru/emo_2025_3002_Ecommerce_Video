@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -40,6 +43,20 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0")
+    implementation("com.google.dagger:hilt-android:2.55")
+    kapt("com.google.dagger:hilt-android-compiler:2.55")
+
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // Gson Converter
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 
     implementation("io.coil-kt:coil-compose:2.5.0")
 
