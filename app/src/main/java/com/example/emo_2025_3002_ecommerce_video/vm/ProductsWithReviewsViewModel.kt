@@ -25,7 +25,7 @@ class ProductsWithReviewsViewModel @Inject constructor(): ViewModel() {
 
 
 
-    fun getProductsWithReviews() {
+    private fun getProductsWithReviews() {
         //productService.getProductsWithReviews()
         viewModelScope.launch {
             try {

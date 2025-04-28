@@ -27,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,13 +37,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.emo_2025_3002_ecommerce_video.models.ProductWithAvgRatingDto
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
 import com.example.emo_2025_3002_ecommerce_video.ui.theme.Emo_2025_3002_Ecommerce_VideoTheme
+import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 
 @Composable
 fun ProductsWithAvgRatingsRoot(modifier: Modifier = Modifier) {
+
+    val viewmodel = hiltViewModel<ProductsWithReviewsViewModel>()
+    val state by viewmodel.productsState.collectAsStateWithLifecycle()
+    ProductsWithAvgRatingsScreen(state = state)
+
 
 
 }
