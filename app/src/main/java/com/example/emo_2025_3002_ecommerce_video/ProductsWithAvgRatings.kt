@@ -47,9 +47,13 @@ import com.example.emo_2025_3002_ecommerce_video.ui.theme.Emo_2025_3002_Ecommerc
 import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 
 @Composable
-fun ProductsWithAvgRatingsRoot(modifier: Modifier = Modifier, onNavigate: (Int) -> Unit) {
+fun ProductsWithAvgRatingsRoot(
+    modifier: Modifier = Modifier,
+    onNavigate: (Int) -> Unit,
+    viewmodel: ProductsWithReviewsViewModel
+) {
 
-    val viewmodel = hiltViewModel<ProductsWithReviewsViewModel>()
+
     val state by viewmodel.productsState.collectAsStateWithLifecycle()
     ProductsWithAvgRatingsScreen(state = state, onNavigate = onNavigate)
 

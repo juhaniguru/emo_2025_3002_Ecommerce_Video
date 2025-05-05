@@ -1,5 +1,6 @@
 package com.example.emo_2025_3002_ecommerce_video.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emo_2025_3002_ecommerce_video.DataApi
@@ -19,9 +20,30 @@ class ProductsWithReviewsViewModel @Inject constructor(private val productServic
 
     private val _productsState = MutableStateFlow(ProductsWithAvgRatingsState())
     val productsState = _productsState.asStateFlow()
+    private var productId = 0
 
     init {
+        Log.d("juhanikikkailee", "ProductsWithReviewsViewModel::init")
         getProductsWithReviews()
+    }
+
+    fun setProductId(id: Int) {
+
+        productId = id
+        Log.d("juhanikikkailee", "ProductsWithReviewsViewModel::setProductId $productId")
+    }
+
+    fun getProductId(): Int {
+        Log.d("juhanikikkailee", "ProductsWithReviewsViewModel::getProductId $productId")
+        return productId
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("juhanikikkailee", "ProductsWithReviewsViewModel::onCleared")
+
+
+
     }
 
 
