@@ -15,8 +15,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
 import com.example.emo_2025_3002_ecommerce_video.models.RatingDto
 import com.example.emo_2025_3002_ecommerce_video.models.RatingsState
@@ -24,6 +26,8 @@ import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 
 @Composable
 fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithReviewsViewModel) {
+    val state by viewModel.ratingsByProductState.collectAsStateWithLifecycle()
+    RatingsScreen(state = state)
 
 }
 
@@ -36,7 +40,7 @@ fun RatingsScreen(
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
-            Text("Products & Reviews")
+            Text("Reviews")
         }, navigationIcon = {
             IconButton(onClick = {}) {
                 Icon(Icons.Default.Menu, contentDescription = "Open Menu")

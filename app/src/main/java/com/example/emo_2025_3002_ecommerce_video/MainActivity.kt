@@ -39,12 +39,14 @@ class MainActivity : ComponentActivity() {
                         composable("ProductsWithAvgRatings") { navGraph ->
                             val viewmodel =
                                 navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
-                            ProductsWithAvgRatingsRoot(viewmodel = viewmodel)
+                            ProductsWithAvgRatingsRoot(viewmodel = viewmodel, onNavigate = {
+                                navController.navigate("Ratings")
+                            })
                         }
                         composable("Ratings") { navGraph ->
                             val viewmodel =
                                 navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
-                            Text("Terve")
+                            RatingsScreenRoot(viewModel = viewmodel)
                         }
                     }
                 }
