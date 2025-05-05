@@ -1,5 +1,7 @@
 package com.example.emo_2025_3002_ecommerce_video.vm
 
+import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emo_2025_3002_ecommerce_video.DataApi
@@ -14,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsWithReviewsViewModel @Inject constructor(private val productService: DataApi) :
+class ProductsWithReviewsViewModel @Inject constructor(
+    private val productService: DataApi,
+    private val savedStateHandle: SavedStateHandle
+) :
     ViewModel() {
 
 
@@ -25,8 +30,15 @@ class ProductsWithReviewsViewModel @Inject constructor(private val productServic
     val ratingsByProductState = _ratingsByProductState.asStateFlow()
 
     init {
+        Log.d("juhanikikkailee_video", "ProductsWithReviewsViewModel::init")
         getProductsWithReviews()
     }
+
+    fun setProductId(id: Int) {
+        savedStateHandle["productId"] = id
+    }
+
+
 
 
     private fun getProductsWithReviews() {
