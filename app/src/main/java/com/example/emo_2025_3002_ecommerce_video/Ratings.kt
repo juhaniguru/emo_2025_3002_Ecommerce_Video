@@ -29,6 +29,19 @@ fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithRevi
     val state by viewModel.ratingsByProductState.collectAsStateWithLifecycle()
     RatingsScreen(state = state)
 
+    /*
+    * Miten tässä voi hakea datan backendista osoitteesta localhost:portti/api/products/{productId}
+    Dataa ei voi hakea viewmodelin init-blokissa, koska initiä ei suoriteta tämän komponentin latautuessa
+    * koska sama viewmodel-instanssi jaetaan kahden screenin kesken
+    *
+    * tutustu LaunchedEffectiin
+    *
+    * * */
+
+
+
+
+
 }
 
 @Composable
