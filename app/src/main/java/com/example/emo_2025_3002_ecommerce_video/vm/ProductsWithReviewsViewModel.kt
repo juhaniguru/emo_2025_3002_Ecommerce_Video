@@ -38,7 +38,9 @@ class ProductsWithReviewsViewModel @Inject constructor(
         savedStateHandle["productId"] = id
     }
 
-
+    /*fun getProductId() {
+        savedStateHandle.get<Int>("productId")
+    }*/
 
 
     private fun getProductsWithReviews() {
