@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -32,12 +36,14 @@ class MainActivity : ComponentActivity() {
 
                     navigation("ProductsWithAvgRatings", route = "productsWithReviewFeature") {
 
-                        composable("ProductsWithAvgRatings") {
-                            val viewmodel = hiltViewModel<ProductsWithReviewsViewModel>()
+                        composable("ProductsWithAvgRatings") { navGraph ->
+                            val viewmodel =
+                                navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
                             ProductsWithAvgRatingsRoot(viewmodel = viewmodel)
                         }
-                        composable("Ratings") {
-                            val viewmodel = hiltViewModel<ProductsWithReviewsViewModel>()
+                        composable("Ratings") { navGraph ->
+                            val viewmodel =
+                                navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
                             Text("Terve")
                         }
                     }
@@ -45,5 +51,18 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+
+@Composable
+inline fun <reified T : ViewModel> NavBackStackEntry.SharedViewModel(navController: NavController): T {
+    // route of the current navigation graph
+    val navGraphRoute = destination.parent?.route ?: return hiltViewModel()
+    val parentEntry = remember(this) {
+        navController.getBackStackEntry(navGraphRoute)
+    }
+
+    return hiltViewModel(parentEntry)
+
 }
 
