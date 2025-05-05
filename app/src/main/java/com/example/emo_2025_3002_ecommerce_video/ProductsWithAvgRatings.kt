@@ -1,5 +1,6 @@
 package com.example.emo_2025_3002_ecommerce_video
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 
@@ -46,12 +47,11 @@ import com.example.emo_2025_3002_ecommerce_video.ui.theme.Emo_2025_3002_Ecommerc
 import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 
 @Composable
-fun ProductsWithAvgRatingsRoot(modifier: Modifier = Modifier) {
+fun ProductsWithAvgRatingsRoot(modifier: Modifier = Modifier, onNavigate: (Int) -> Unit) {
 
     val viewmodel = hiltViewModel<ProductsWithReviewsViewModel>()
     val state by viewmodel.productsState.collectAsStateWithLifecycle()
-    ProductsWithAvgRatingsScreen(state = state)
-
+    ProductsWithAvgRatingsScreen(state = state, onNavigate = onNavigate)
 
 
 }
@@ -60,7 +60,8 @@ fun ProductsWithAvgRatingsRoot(modifier: Modifier = Modifier) {
 @Composable
 fun ProductsWithAvgRatingsScreen(
     modifier: Modifier = Modifier,
-    state: ProductsWithAvgRatingsState
+    state: ProductsWithAvgRatingsState,
+    onNavigate: (Int) -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -101,7 +102,10 @@ fun ProductsWithAvgRatingsScreen(
                     items(state.productsWithRatings, key = { p ->
                         p.id
                     }) { productWithAvgRating ->
-                        ProductWithAvgRatingItem(item = productWithAvgRating)
+                        ProductWithAvgRatingItem(
+                            item = productWithAvgRating,
+                            onNavigate = onNavigate
+                        )
                     }
                 }
             }
@@ -110,10 +114,17 @@ fun ProductsWithAvgRatingsScreen(
 }
 
 @Composable
-fun ProductWithAvgRatingItem(modifier: Modifier = Modifier, item: ProductWithAvgRatingDto) {
+fun ProductWithAvgRatingItem(
+    modifier: Modifier = Modifier,
+    item: ProductWithAvgRatingDto,
+    onNavigate: (Int) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                onNavigate(item.id)
+            }
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -215,6 +226,6 @@ private fun ProductsWithAvgRatingsScreenPreview() {
 
                 )
             )
-        ProductsWithAvgRatingsScreen(state = state)
+        ProductsWithAvgRatingsScreen(state = state, onNavigate = {})
     }
 }
