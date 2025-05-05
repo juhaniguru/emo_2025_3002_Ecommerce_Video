@@ -22,6 +22,7 @@ class ProductsWithReviewsViewModel @Inject constructor(private val productServic
     val productsState = _productsState.asStateFlow()
 
     private val _ratingsByProductState = MutableStateFlow(RatingsState())
+    val ratingsByProductState = _ratingsByProductState.asStateFlow()
 
     init {
         getProductsWithReviews()
