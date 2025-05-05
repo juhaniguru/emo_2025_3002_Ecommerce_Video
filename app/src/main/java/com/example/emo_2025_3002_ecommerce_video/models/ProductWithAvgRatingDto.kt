@@ -19,3 +19,20 @@ data class ProductsWithAvgRatingsState(
     val loading: Boolean = false,
     val productsWithRatings: List<ProductWithAvgRatingDto> = emptyList()
 )
+
+data class RatingDto(
+    val id: Int,
+    val rating: Float,
+    @SerializedName("date_reviewed")
+    val dateReviewed: String,
+    val message: String?
+)
+
+data class ProductDto(val name: String, val review: List<RatingDto>)
+
+data class RatingsState(
+    val error: String? = null,
+    val loading: Boolean = false,
+    val product: ProductDto? = null
+)
+

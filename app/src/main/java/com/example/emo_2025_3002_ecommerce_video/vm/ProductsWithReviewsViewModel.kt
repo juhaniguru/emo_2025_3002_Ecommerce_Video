@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emo_2025_3002_ecommerce_video.DataApi
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
+import com.example.emo_2025_3002_ecommerce_video.models.RatingsState
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,8 @@ class ProductsWithReviewsViewModel @Inject constructor(private val productServic
 
     private val _productsState = MutableStateFlow(ProductsWithAvgRatingsState())
     val productsState = _productsState.asStateFlow()
+
+    private val _ratingsByProductState = MutableStateFlow(RatingsState())
 
     init {
         getProductsWithReviews()
