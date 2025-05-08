@@ -34,6 +34,10 @@ class ProductsWithReviewsViewModel @Inject constructor(
         getProductsWithReviews()
     }
 
+    fun poistaArvostelu(ratingId: Int) {
+
+    }
+
     fun haeArvostelutTuotteelle() {
         viewModelScope.launch {
             try {

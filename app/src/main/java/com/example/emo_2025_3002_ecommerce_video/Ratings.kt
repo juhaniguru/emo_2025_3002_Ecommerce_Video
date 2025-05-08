@@ -36,7 +36,9 @@ import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 @Composable
 fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithReviewsViewModel) {
     val state by viewModel.ratingsByProductState.collectAsStateWithLifecycle()
-    RatingsScreen(state = state)
+    RatingsScreen(state = state, onRemove = { ratingId ->
+        viewModel.poistaArvostelu(ratingId)
+    })
 
     /*
     * Miten tässä voi hakea datan backendista osoitteesta localhost:portti/api/products/{productId}
@@ -62,7 +64,8 @@ fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithRevi
 
 fun RatingsScreen(
     modifier: Modifier = Modifier,
-    state: RatingsState
+    state: RatingsState,
+    onRemove: (Int) -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -103,7 +106,7 @@ fun RatingsScreen(
                     items(state.product?.review ?: emptyList(), key = { p ->
                         p.id
                     }) { rating ->
-                        RatingItem(item = rating)
+                        RatingItem(item = rating, onRemove = onRemove)
                     }
                 }
             }
@@ -112,7 +115,7 @@ fun RatingsScreen(
 }
 
 @Composable
-fun RatingItem(modifier: Modifier = Modifier, item: RatingDto) {
+fun RatingItem(modifier: Modifier = Modifier, item: RatingDto, onRemove: (Int) -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(8.dp)) {
@@ -123,10 +126,13 @@ fun RatingItem(modifier: Modifier = Modifier, item: RatingDto) {
 
                     RatingBar(rating = item.rating, reviewCount = 1, showReviewCount = false)
                     // https://stackoverflow.com/questions/76218477/how-to-align-view-at-end-in-row-jetpack-compose
+
                     Spacer(modifier = Modifier.weight(1f))
 
 
-                    IconButton(onClick = {},) {
+                    IconButton(onClick = {
+                        onRemove(item.id)
+                    },) {
                         Icon(Icons.Filled.Delete, contentDescription = "Remove Review")
                     }
 
