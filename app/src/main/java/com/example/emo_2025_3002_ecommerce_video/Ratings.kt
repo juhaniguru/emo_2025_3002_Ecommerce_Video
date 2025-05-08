@@ -1,12 +1,20 @@
 package com.example.emo_2025_3002_ecommerce_video
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,8 +27,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
 import com.example.emo_2025_3002_ecommerce_video.models.RatingDto
 import com.example.emo_2025_3002_ecommerce_video.models.RatingsState
 import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
@@ -105,5 +113,25 @@ fun RatingsScreen(
 
 @Composable
 fun RatingItem(modifier: Modifier = Modifier, item: RatingDto) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp)) {
+        Column(modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth()) {
 
+                    RatingBar(rating = item.rating, reviewCount = 1, showReviewCount = false)
+                    // https://stackoverflow.com/questions/76218477/how-to-align-view-at-end-in-row-jetpack-compose
+                    Spacer(modifier = Modifier.weight(1f))
+
+
+                    IconButton(onClick = {},) {
+                        Icon(Icons.Filled.Delete, contentDescription = "Remove Review")
+                    }
+
+            }
+            Text(item.message ?: "")
+        }
+    }
 }
