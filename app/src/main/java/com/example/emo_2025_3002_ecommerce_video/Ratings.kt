@@ -38,6 +38,8 @@ fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithRevi
     *
     * * */
 
+    viewModel.metodiJokaHakeeArvostelutTuotteelle()
+
 
 
 

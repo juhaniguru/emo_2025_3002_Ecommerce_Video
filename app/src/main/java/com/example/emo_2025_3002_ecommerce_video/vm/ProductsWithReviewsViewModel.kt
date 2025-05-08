@@ -34,6 +34,24 @@ class ProductsWithReviewsViewModel @Inject constructor(
         getProductsWithReviews()
     }
 
+    fun haeArvostelutTuotteelle() {
+        viewModelScope.launch {
+            try {
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(loading = true, error = null)
+                }
+            } catch(e: Exception) {
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(error = e.toString())
+                }
+            } finally {
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(loading = false)
+                }
+            }
+        }
+    }
+
     fun setProductId(id: Int) {
         savedStateHandle["productId"] = id
     }
