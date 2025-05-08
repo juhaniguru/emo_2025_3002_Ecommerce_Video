@@ -39,7 +39,8 @@ class MainActivity : ComponentActivity() {
                         composable("ProductsWithAvgRatings") { navGraph ->
                             val viewmodel =
                                 navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
-                            ProductsWithAvgRatingsRoot(viewmodel = viewmodel, onNavigate = {
+                            ProductsWithAvgRatingsRoot(viewmodel = viewmodel, onNavigate = { chosenProductId ->
+                                viewmodel.setProductId(chosenProductId)
                                 navController.navigate("Ratings")
                             })
                         }

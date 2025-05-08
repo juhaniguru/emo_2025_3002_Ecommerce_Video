@@ -40,7 +40,7 @@ class ProductsWithReviewsViewModel @Inject constructor(
                 _ratingsByProductState.update { currentState ->
                     currentState.copy(loading = true, error = null)
                 }
-                //val productId = savedStateHandle.get<Int>("productId")
+
                 savedStateHandle.get<Int>("productId")?.let{ pId ->
                     val product = productService.getProduct(pId)
                     _ratingsByProductState.update { currentState ->
