@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emo_2025_3002_ecommerce_video.DataApi
+import com.example.emo_2025_3002_ecommerce_video.models.ProductDto
 import com.example.emo_2025_3002_ecommerce_video.models.ProductsWithAvgRatingsState
 import com.example.emo_2025_3002_ecommerce_video.models.RatingsState
 
@@ -35,6 +36,19 @@ class ProductsWithReviewsViewModel @Inject constructor(
     }
 
     fun poistaArvostelu(ratingId: Int) {
+
+        val reviews = _ratingsByProductState.value.product?.review ?: emptyList()
+        val remainingReviews = reviews.filter { rating ->
+            rating.id != ratingId
+        }
+        val product = _ratingsByProductState.value.product
+        val newProduct =  ProductDto(name=product?.name ?: "" , review = remainingReviews)
+        _ratingsByProductState.update { currentState ->
+            currentState.copy(product = newProduct)
+        }
+
+
+
 
     }
 
