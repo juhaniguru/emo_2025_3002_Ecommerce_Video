@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -50,12 +51,16 @@ import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 fun ProductsWithAvgRatingsRoot(
     modifier: Modifier = Modifier,
     viewmodel: ProductsWithReviewsViewModel,
-    onNavigate: (Int) -> Unit
+    onNavigate: () -> Unit
 ) {
 
 
     val state by viewmodel.productsState.collectAsStateWithLifecycle()
-    ProductsWithAvgRatingsScreen(state = state, onNavigate = onNavigate)
+    ProductsWithAvgRatingsScreen(state = state, onNavigate = { chosenProductId ->
+
+        viewmodel.setProductId(chosenProductId)
+        onNavigate()
+    })
 
 
 }
@@ -84,7 +89,7 @@ fun ProductsWithAvgRatingsScreen(
                         .padding(paddingValues),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.testTag("loader"))
                 }
             }
 

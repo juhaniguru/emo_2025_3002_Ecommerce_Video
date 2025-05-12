@@ -31,7 +31,7 @@ class ProductsWithReviewsViewModel @Inject constructor(
     val ratingsByProductState = _ratingsByProductState.asStateFlow()
 
     init {
-        Log.d("juhanikikkailee_video", "ProductsWithReviewsViewModel::init")
+
         getProductsWithReviews()
     }
 
