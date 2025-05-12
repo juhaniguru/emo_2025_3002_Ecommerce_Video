@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
@@ -34,11 +35,15 @@ import com.example.emo_2025_3002_ecommerce_video.models.RatingsState
 import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 
 @Composable
-fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithReviewsViewModel) {
+fun RatingsScreenRoot(
+    modifier: Modifier = Modifier,
+    viewModel: ProductsWithReviewsViewModel,
+    onNavigateBack: () -> Unit
+) {
     val state by viewModel.ratingsByProductState.collectAsStateWithLifecycle()
     RatingsScreen(state = state, onRemove = { ratingId ->
         viewModel.poistaArvostelu(ratingId)
-    })
+    }, onNavigateBack = onNavigateBack)
 
     /*
     * Miten tässä voi hakea datan backendista osoitteesta localhost:portti/api/products/{productId}
@@ -54,9 +59,6 @@ fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithRevi
     }
 
 
-
-
-
 }
 
 @Composable
@@ -65,14 +67,16 @@ fun RatingsScreenRoot(modifier: Modifier = Modifier, viewModel: ProductsWithRevi
 fun RatingsScreen(
     modifier: Modifier = Modifier,
     state: RatingsState,
-    onRemove: (Int) -> Unit
+    onRemove: (Int) -> Unit,
+    onNavigateBack: () -> Unit
+
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
             Text("Reviews")
         }, navigationIcon = {
-            IconButton(onClick = {}) {
-                Icon(Icons.Default.Menu, contentDescription = "Open Menu")
+            IconButton(onClick = onNavigateBack) {
+                Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Open Menu")
             }
         })
     }) { paddingValues ->
@@ -116,25 +120,31 @@ fun RatingsScreen(
 
 @Composable
 fun RatingItem(modifier: Modifier = Modifier, item: RatingDto, onRemove: (Int) -> Unit) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp)) {
-        Column(modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+        ) {
             Row(modifier = Modifier.fillMaxWidth()) {
 
-                    RatingBar(rating = item.rating, reviewCount = 1, showReviewCount = false)
-                    // https://stackoverflow.com/questions/76218477/how-to-align-view-at-end-in-row-jetpack-compose
+                RatingBar(rating = item.rating, reviewCount = 1, showReviewCount = false)
+                // https://stackoverflow.com/questions/76218477/how-to-align-view-at-end-in-row-jetpack-compose
 
-                    Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
 
 
-                    IconButton(onClick = {
+                IconButton(
+                    onClick = {
                         onRemove(item.id)
-                    },) {
-                        Icon(Icons.Filled.Delete, contentDescription = "Remove Review")
-                    }
+                    },
+                ) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Remove Review")
+                }
 
             }
             Text(item.message ?: "")

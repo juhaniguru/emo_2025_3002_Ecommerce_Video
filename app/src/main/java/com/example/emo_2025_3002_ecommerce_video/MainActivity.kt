@@ -47,7 +47,9 @@ class MainActivity : ComponentActivity() {
                         composable("Ratings") { navGraph ->
                             val viewmodel =
                                 navGraph.SharedViewModel<ProductsWithReviewsViewModel>(navController)
-                            RatingsScreenRoot(viewModel = viewmodel)
+                            RatingsScreenRoot(viewModel = viewmodel, onNavigateBack = {
+                                navController.navigateUp()
+                            })
                         }
                     }
                 }
