@@ -2,8 +2,7 @@ package com.example.emo_2025_3002_ecommerce_video
 
 import com.example.emo_2025_3002_ecommerce_video.models.ProductDto
 import com.example.emo_2025_3002_ecommerce_video.models.ProductWithAvgRatingDto
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
