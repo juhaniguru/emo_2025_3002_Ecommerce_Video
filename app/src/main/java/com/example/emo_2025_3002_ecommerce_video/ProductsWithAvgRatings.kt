@@ -50,12 +50,16 @@ import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 fun ProductsWithAvgRatingsRoot(
     modifier: Modifier = Modifier,
     viewmodel: ProductsWithReviewsViewModel,
-    onNavigate: (Int) -> Unit
+    onNavigate: () -> Unit
 ) {
 
 
     val state by viewmodel.productsState.collectAsStateWithLifecycle()
-    ProductsWithAvgRatingsScreen(state = state, onNavigate = onNavigate)
+    ProductsWithAvgRatingsScreen(state = state, onNavigate = { chosenProductId ->
+        viewmodel.setProductId(chosenProductId)
+        onNavigate()
+
+    })
 
 
 }
