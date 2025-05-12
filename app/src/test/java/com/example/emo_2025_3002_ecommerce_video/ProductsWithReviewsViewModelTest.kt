@@ -5,6 +5,8 @@ import com.example.emo_2025_3002_ecommerce_video.models.ProductDto
 import com.example.emo_2025_3002_ecommerce_video.models.ProductWithAvgRatingDto
 import com.example.emo_2025_3002_ecommerce_video.vm.ProductsWithReviewsViewModel
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNotNull
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -35,8 +37,24 @@ class MockProductServiceOK : DataApi {
     }
 }
 
+class MockProductServiceNOK : DataApi {
+    override suspend fun getProductsWithReviews(): List<ProductWithAvgRatingDto> {
+        throw Exception("some random error")
+    }
+
+    override suspend fun getProduct(productId: Int): ProductDto? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeReview(productId: Int, reviewId: Int) {
+        TODO("Not yet implemented")
+    }
+
+}
+
 class ProductsWithReviewsViewModelTest {
     private lateinit var vm: ProductsWithReviewsViewModel
+    private lateinit var vmNOK : ProductsWithReviewsViewModel
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -44,8 +62,11 @@ class ProductsWithReviewsViewModelTest {
     fun setup() {
         Dispatchers.setMain(Dispatchers.Unconfined)
         val productService = MockProductServiceOK()
+        val productServiceNOK = MockProductServiceNOK()
+
         val savedStateHandle = SavedStateHandle()
         vm = ProductsWithReviewsViewModel(productService,savedStateHandle)
+        vmNOK = ProductsWithReviewsViewModel(productServiceNOK, savedStateHandle)
     }
 
     @Test
@@ -61,6 +82,12 @@ class ProductsWithReviewsViewModelTest {
         )
 
         assertEquals(expectedData, vm.productsState.value.productsWithRatings)
+    }
+
+    @Test
+    fun getProductsWithAvgRatingsNOK() {
+        //vmNOK.getProductsWithReviews()
+        assertNotNull(vmNOK.productsState.value.error)
     }
 
 
