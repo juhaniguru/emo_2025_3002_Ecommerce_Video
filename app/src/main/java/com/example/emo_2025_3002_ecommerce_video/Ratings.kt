@@ -43,7 +43,10 @@ fun RatingsScreenRoot(
     val state by viewModel.ratingsByProductState.collectAsStateWithLifecycle()
     RatingsScreen(state = state, onRemove = { ratingId ->
         viewModel.poistaArvostelu(ratingId)
-    }, onNavigateBack = onNavigateBack)
+    }, onNavigateBack = {
+        viewModel.getProductsWithReviews()
+        onNavigateBack()
+    })
 
     /*
     * Miten tässä voi hakea datan backendista osoitteesta localhost:portti/api/products/{productId}

@@ -37,14 +37,32 @@ class ProductsWithReviewsViewModel @Inject constructor(
 
     fun poistaArvostelu(ratingId: Int) {
         viewModelScope.launch {
-            val reviews = _ratingsByProductState.value.product?.review ?: emptyList()
-            val remainingReviews = reviews.filter { rating ->
-                rating.id != ratingId
-            }
-            val product = _ratingsByProductState.value.product
-            val newProduct = ProductDto(name = product?.name ?: "", review = remainingReviews)
             _ratingsByProductState.update { currentState ->
-                currentState.copy(product = newProduct)
+               currentState.copy(loading = true)
+            }
+            try {
+
+                savedStateHandle.get<Int>("productId")?.let{ pid ->
+                    productService.removeReview(pid, ratingId)
+                } ?: throw Exception("product id cannot be found")
+
+                val reviews = _ratingsByProductState.value.product?.review ?: emptyList()
+                val remainingReviews = reviews.filter { rating ->
+                    rating.id != ratingId
+                }
+                val product = _ratingsByProductState.value.product
+                val newProduct = ProductDto(name = product?.name ?: "", review = remainingReviews)
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(product = newProduct)
+                }
+            } catch(e: Exception) {
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(error = e.toString())
+                }
+            } finally {
+                _ratingsByProductState.update { currentState ->
+                    currentState.copy(loading = false)
+                }
             }
         }
 
@@ -89,7 +107,7 @@ class ProductsWithReviewsViewModel @Inject constructor(
     }*/
 
 
-    private fun getProductsWithReviews() {
+    fun getProductsWithReviews() {
         //productService.getProductsWithReviews()
         viewModelScope.launch {
             try {
