@@ -73,7 +73,7 @@ fun RatingsScreen(
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
-            Text("Reviews")
+            Text(state.product?.name ?: "")
         }, navigationIcon = {
             IconButton(onClick = onNavigateBack) {
                 Icon(Icons.AutoMirrored.Default.ArrowBack, contentDescription = "Open Menu")

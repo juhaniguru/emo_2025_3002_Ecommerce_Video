@@ -36,15 +36,16 @@ class ProductsWithReviewsViewModel @Inject constructor(
     }
 
     fun poistaArvostelu(ratingId: Int) {
-
-        val reviews = _ratingsByProductState.value.product?.review ?: emptyList()
-        val remainingReviews = reviews.filter { rating ->
-            rating.id != ratingId
-        }
-        val product = _ratingsByProductState.value.product
-        val newProduct =  ProductDto(name=product?.name ?: "" , review = remainingReviews)
-        _ratingsByProductState.update { currentState ->
-            currentState.copy(product = newProduct)
+        viewModelScope.launch {
+            val reviews = _ratingsByProductState.value.product?.review ?: emptyList()
+            val remainingReviews = reviews.filter { rating ->
+                rating.id != ratingId
+            }
+            val product = _ratingsByProductState.value.product
+            val newProduct = ProductDto(name = product?.name ?: "", review = remainingReviews)
+            _ratingsByProductState.update { currentState ->
+                currentState.copy(product = newProduct)
+            }
         }
 
 
